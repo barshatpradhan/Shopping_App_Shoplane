@@ -198,7 +198,9 @@ img {
   color: white;
 }
 
-.dollar-sign,
+.dollar-sign{
+  color: green;
+}
 .sub-price {
   color: grey;
 }
@@ -335,17 +337,16 @@ input{
   align-items: center;
   gap: 3rem;
   margin: 4.5rem;
-  border-style: none;
+  /* border-style: none; */
 }
 
 .cart-product-div{
-  width: 70%;
+  width: 50%;
 }
 
 .cart-div{
   display: flex;
   flex-direction: row;
-  padding: 10px;
 }
 
 .image-div{
@@ -360,36 +361,67 @@ input{
   object-fit: contain;
 }
 
+.content-div{
+  width: 60%;
+}
 
-.title-price-img-div{
+.quantity-change-div {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.quantity-change-inside-div {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
-.title-price-div{
- display: flex;
- justify-content: space-between;
- flex-direction: column;
+.minus-icon,
+.plus-icon {
+  display: flex;
+  background-color: white;
+  border-style: none;
+  font-size: 1.5rem;
 }
 
-.cart-summary-div{
+.product-price-div-in-cart {
+  display: flex;
+  align-items: center;
+}
+
+.product-price-div {
+  margin-right: 1.5rem;
+}
+
+.dollar-sign,
+.main-price,
+.sub-price {
+  margin: 0px;
+}
+
+.quantity-to-multiply {
+  color: rgb(83, 83, 83);
+}
+
+.cart-summary-div {
   width: 30%;
 }
 
-.summary-div{
-  margin:0rem 2rem 2rem;
+.summary-div {
+  margin: 0rem 2rem 2rem;
 }
 
-.order-summary{
-  margin:1rem 0rem 2rem;
+.order-summary {
+  margin: 1rem 0rem 2rem;
 }
+
 
 /* WISHLIST */
 
-.product-container {
+.wish-page-btn-div-container {
   display: flex;
-  flex-wrap: wrap; 
-  gap: 10px; 
+  flex-wrap: center; 
+  gap: 1vw; 
 }
 
 /* Responsive Design */

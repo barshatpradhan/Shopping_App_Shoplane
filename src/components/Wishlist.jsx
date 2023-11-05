@@ -1,19 +1,16 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Scrollbars } from "react-custom-scrollbars";
+import WishlistItems from "./WishlistItems";
 
-import Product from "./Product";
-
-const Wishlist = (props) => {
-
-  const wishlist = useSelector((state) => state.cart.wishListItems || []);
-
+function Wishlist() {
+  const wishlist = useSelector((state) => state.cart.wishListItems);
 
   let subTotal = 0;
   for (let each of wishlist) {
     subTotal += each.price;
   }
 
-  
   let shippingEstimate = subTotal * 0.05;
   let taxEstimate = subTotal * 0.18;
   let orderTotal = subTotal + shippingEstimate + taxEstimate;
@@ -22,20 +19,20 @@ const Wishlist = (props) => {
     <>
       {wishlist.length ? (
         <div className="main-cart-div">
-          <div className="product-container">
-            {wishlist.map((product) => (
-              <Product key={product.id} data={product} />
-            ))}
+          <div className=" card row cart-product-div">
+            <Scrollbars style={{ height: "28rem", width: "100%" }}>
+              {wishlist.map((product) => (
+                <WishlistItems key={product.id} data={product} />
+              ))}
+            </Scrollbars>
           </div>
-          
-          
 
           <div className="card cart-summary-div">
             <div className="summary-div">
               <div className="text-center h4 order-summary">
                 Wishlist Summary
               </div>
-              <div className="row subtotal">
+              <div className="row sub-total">
                 <p className="col-lg-7 h6">Subtotal</p>
                 <p className="col-lg-5">${subTotal.toFixed(2)}</p>
               </div>
@@ -73,5 +70,4 @@ const Wishlist = (props) => {
     </>
   );
 }
-
-export default Wishlist
+export default Wishlist;

@@ -2,8 +2,18 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FaRegAddressCard } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { signupSchema } from "../schemas/signupSchema";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../firebase/firebase";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../redux/Slice/AuthSlice";
+import { useState } from "react";
 
 function SignUp() {
+  const [requestResponse, setRequestResponse] = useState({
+    textMessage: "",
+    alertClass: "",
+  });
+
   const initialValues = {
     firstname: "",
     lastname: "",
@@ -11,13 +21,47 @@ function SignUp() {
     password: "",
     confirm_password: "",
   };
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = (values) => {
-    alert(" Sign Up Sucessfull Sucessfull");
-    navigate("/login");
-    console.log("🚀 ~ file: SignUp.jsx:21 ~ SignUp ~ values:", values);
+  const handleSignup = (values) => {
+    const { email, password, firstname, lastname } = values;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log("User registered:", user);
+
+        dispatch(loginUser(user));
+
+        updateProfile(user, { displayName: `${firstname} ${lastname}` })
+          .then(() => {
+            console.log("User profile updated:", user);
+
+            navigate("/login");
+
+            setRequestResponse({
+              textMessage: "Signup successful. Please log in.",
+              alertClass: "alert alert-success",
+            });
+          })
+          .catch((profileError) => {
+            console.error("Profile update error:", profileError);
+
+            setRequestResponse({
+              textMessage: "Error updating user profile.",
+              alertClass: "alert alert-danger",
+            });
+          });
+      })
+      .catch((registrationError) => {
+        console.error("Registration error:", registrationError);
+
+        setRequestResponse({
+          textMessage: "Error during signup. Please try again.",
+          alertClass: "alert alert-danger",
+        });
+      });
   };
 
   return (
@@ -26,7 +70,7 @@ function SignUp() {
         <div className="card form-container">
           <Formik
             initialValues={initialValues}
-            onSubmit={onSubmit}
+            onSubmit={handleSignup}
             validationSchema={signupSchema}
             validateOnMount
           >
@@ -34,6 +78,9 @@ function SignUp() {
               return (
                 <Form>
                   <div className="form-div">
+                    <div className={requestResponse.alertClass}>
+                      {requestResponse.textMessage}
+                    </div>
                     <h2>Sign Up</h2>
                     <div className="form-input">
                       <Field
@@ -132,6 +179,7 @@ function SignUp() {
                         value="Register"
                         className="btn blue-btn signup-page-btn"
                         disabled={!formik.isValid}
+                        onSubmit={handleSignup}
                       >
                         <FaRegAddressCard size={"18px"} />
                         Sign Up

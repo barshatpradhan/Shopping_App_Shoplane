@@ -5,11 +5,12 @@ import {
   deleteFromCart,
   removeFromWishlist,
 } from "../redux/Slice/CartSlice";
+import { toast } from "react-toastify";
 import { useRef } from "react";
 import { BsFillCartFill } from "react-icons/bs";
 
 function WishlistItems(props) {
-  const { id, title, price, category, image } = props.data;
+  const { id, title, price, category, image, } = props.data;
 
   let productPrice = price;
 
@@ -35,6 +36,16 @@ function WishlistItems(props) {
 
   const handleRemoveItemFromWish = () => {
     dispatch(removeFromWishlist(props.data));
+    toast.warning(`${title} removed from wishlist`, {
+      position: "bottom-right",
+      autoClose: 600,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   };
 
   return (
@@ -51,7 +62,7 @@ function WishlistItems(props) {
             </h6>
           </div>
           <div className="price-div">
-            <div className="product-priceDiv">
+            <div className="product-price-div">
               <p className="dollar-sign">$</p>
               <p className="main-price">{mainPrice}</p>
               <p className="sub-price">{subPrice}</p>
@@ -59,12 +70,13 @@ function WishlistItems(props) {
           </div>
           <div className="wish-page-btn-div-container">
             <button
+              id="b"
               onClick={handleATCclick}
               ref={atcBtn}
               className={
                 isItemInCart
-                  ? "btn red-btn add-to-cart-btn-in-allProducts "
-                  : "btn blue-btn add-to-cart-btn-in-allProducts"
+                  ? "btn red-btn add-to-cart-btn-in-all-products "
+                  : "btn blue-btn add-to-cart-btn-in-all-products"
               }
             >
               {isItemInCart ? (
