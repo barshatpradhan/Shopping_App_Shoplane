@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+# Shoplane Shopping App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based e-commerce frontend inspired by Shoplane. The app fetches products from [Fake Store API](https://fakestoreapi.com/), supports category browsing, product detail pages, cart and wishlist management, and Firebase Authentication (sign up/login/logout) for protected routes.
 
-## Available Scripts
+## Project Overview
 
-In the project directory, you can run:
+This project is built with:
 
-### `npm start`
+- **React 18** + **React Router v6** for page navigation.
+- **Redux Toolkit** for cart, wishlist, and auth-related state.
+- **Formik + Yup** for login/signup form handling and validation.
+- **Firebase Authentication** for user signup/login.
+- **Axios** for API calls to Fake Store API.
+- **Bootstrap 4** + custom CSS for UI styling.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Current App Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Home page with all products.
+- Category pages:
+  - Electronics
+  - Jewellery
+  - Men's Clothing
+  - Women's Clothing
+- Product detail page.
+- Cart page with subtotal, shipping estimate, tax estimate, and total.
+- Favorites (wishlist) page.
+- Authentication pages (Sign Up, Login).
+- Route protection for cart, favorites, category, and product detail pages.
 
-### `npm test`
+## Requirements to Run Locally
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Node.js 18+** (recommended)
+- **npm 9+** (recommended)
 
-### `npm run build`
+## Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+From the project root:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install --legacy-peer-deps
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+> Why `--legacy-peer-deps`?
+> This project depends on `react-custom-scrollbars`, which has older peer dependency constraints that conflict with React 18 under strict npm resolution.
 
-### `npm run eject`
+## Run the App
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Then open:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- http://localhost:3000
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Build for Production
 
-## Learn More
+```bash
+npm run build
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Test Command
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm test
+```
 
-### Code Splitting
+## Authentication & Data Sources
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Firebase Auth** is configured in `src/firebase/firebase.js` using an existing project config in code.
+- Product/catalog data is loaded from Fake Store API via `src/api/Constants.js` and `src/api/Endpoints.js`.
 
-### Analyzing the Bundle Size
+## Routes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- `/` - Home
+- `/products/category/:categoryName` - Category products (protected)
+- `/products/:id` - Product detail (protected)
+- `/cartPage` - Cart (protected)
+- `/favorites` - Wishlist (protected)
+- `/login` - Login
+- `/signup` - Signup
 
-### Making a Progressive Web App
+## Notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Protected pages require a `userToken` in localStorage (set after successful login).
+- If dependencies fail to install in your environment due to network/policy restrictions, ensure npm can access `https://registry.npmjs.org/`.
